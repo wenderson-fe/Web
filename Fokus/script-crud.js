@@ -6,7 +6,8 @@ const btnCancelarTarefa = document.querySelector('.app__form-footer__button--can
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description');
 
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
-tarefaSelecionada = null;
+ let tarefaSelecionada = null;
+let liTarefaSelecionada = null;
 
 function atualizarTarefas() {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
@@ -63,11 +64,12 @@ function criarElementoTarefa(tarefa) {
         if(tarefaSelecionada == tarefa) {
             paragrafoDescricaoTarefa.textContent = '';
             tarefaSelecionada = null;
+            liTarefaSelecionada = null;
             return;
         }
         
         tarefaSelecionada = tarefa;
-        
+        liTarefaSelecionada = li;
         li.classList.add('app__section-task-list-item-active');
     }
 
@@ -76,7 +78,7 @@ function criarElementoTarefa(tarefa) {
 
 btnAdicionarTarefa.addEventListener('click', () => {
     formAdicionarTarefa.classList.toggle('hidden');
-})
+});
 
 formAdicionarTarefa.addEventListener('submit', (evento) => {
     evento.preventDefault();
@@ -88,11 +90,20 @@ formAdicionarTarefa.addEventListener('submit', (evento) => {
     ulTarefas.append(elementoTarefa);
     atualizarTarefas();
     LimparEsconderFormulario();
-})
+});
 
 btnCancelarTarefa.addEventListener('click', LimparEsconderFormulario);
 
 tarefas.forEach(tarefa => {
     const elementoTarefa = criarElementoTarefa(tarefa);
     ulTarefas.append(elementoTarefa);
-})
+});
+
+document.addEventListener('focoFinalizado', () => {
+    //debugger
+    if(tarefaSelecionada && liTarefaSelecionada){
+        liTarefaSelecionada.classList.remove('app__section-task-list-item-active');
+        liTarefaSelecionada.classList.add('app__section-task-list-item-complete');
+        liTarefaSelecionada.querySelector('button').setAttribute('disabled','disabled');
+    }
+});
