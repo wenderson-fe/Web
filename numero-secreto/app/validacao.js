@@ -17,6 +17,8 @@ function verificaChute(chute) {
         document.body.innerHTML = `
             <h1>Você Acertou!</h1>
             <h2>O número secreto era ${numeroSecreto}</h2>
+
+            <button id= "jogar-novamente" class= "btn-jogar">Jogar Novamente</button>
         `;
     }
 
