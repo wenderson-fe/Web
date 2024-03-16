@@ -1,6 +1,10 @@
 function verificaChute(chute) {
     const numero = +chute; // Trasnformando em inteiro
 
+    if(chute === 'game over') {
+        saindoDoJogo();
+    }
+
     if(chuteInvalido(numero)) {
         elementoChute.innerHTML += '<div>Valor inválido</div>';
         return;
@@ -33,6 +37,13 @@ function verificaChute(chute) {
     }
 }
 
+function saindoDoJogo() {
+    document.body.innerHTML = `
+        <h1>Jogo Finalizado</h1><br>
+        <button id= "jogar-novamente" class= "btn-jogar">Jogar Novamente</button>
+    `;
+}
+
 function chuteInvalido(numero) {
     return Number.isNaN(numero);
 }
@@ -40,3 +51,10 @@ function chuteInvalido(numero) {
 function numeroMaiorOuMenorQuePermitido(numero) {
     return numero > maiorValor || numero < menorValor;
 }
+
+
+document.body.addEventListener("click", e => {
+    if(e.target.id == 'jogar-novamente') {
+        window.location.reload();
+    }
+})
